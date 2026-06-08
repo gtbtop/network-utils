@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Состояние сайта</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="/">Speed Test</a>
+  <a href="/uptime.html">Uptime Monitor</a>
+  <a href="/docs">Docs</a>
+</nav>
+
+<!-- One-time URL check form -->
+<div style="width:100%;max-width:560px;margin-bottom:8px">
+  <p style="font-size:.8rem;color:var(--muted);margin-bottom:8px">Проверьте любой сайт прямо сейчас:</p>
+  <div class="check-form">
+    <input id="url-input" class="check-input" type="url"
+           placeholder="https://example.com" />
+    <button id="check-btn" class="btn-sm">Проверить</button>
+  </div>
+  <div id="check-result" style="min-height:24px"></div>
+</div>
+
+<!-- Monitored site detail (shown when ?id= is in URL) -->
+<div id="site-detail" style="width:100%;max-width:560px;display:none">
+  <div class="card">
+    <div class="status-header">
+      <div class="dot dot-unknown" id="detail-dot" style="width:16px;height:16px"></div>
+      <div class="status-big" id="detail-status">—</div>
+      <div id="detail-name" style="font-size:1.1rem;font-weight:600"></div>
+      <div id="detail-url" style="font-size:.8rem;color:var(--muted)"></div>
+    </div>
+
+    <div class="stats" style="margin-bottom:20px">
+      <div class="stat">
+        <div class="stat-label">Работа</div>
+        <div id="detail-uptime" class="stat-value">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Средняя задержка</div>
+        <div id="detail-avg" class="stat-value">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Проверки</div>
+        <div id="detail-checks" class="stat-value">—</div>
+      </div>
+    </div>
+
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:6px">Последние ~2 часа (задержка)</p>
+    <div class="chart-wrap" style="height:120px;margin-bottom:20px">
+      <canvas id="detail-chart"></canvas>
+    </div>
+
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:6px">Доступность (справа новые)</p>
+    <div class="uptime-bar" id="detail-bar" style="margin-bottom:20px"></div>
+
+    <p class="share-link">
+      Поделиться этой страницей:
+      <a id="share-link-el" href="#">—</a>
+    </p>
+  </div>
+</div>
+
+<footer>
+  <a href="/docs">Docs</a> &nbsp;·&nbsp;
+  <a href="https://github.com/gtbtop/network-utils" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="/js/status.js"></script>
+</body>
+</html>

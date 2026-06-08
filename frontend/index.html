@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeedTest</title>
+  <meta name="description" content="Free self-hosted internet speed test. Measure download speed, upload speed and latency directly from your browser." />
+  <meta name="keywords" content="speed test, internet speed, download speed, upload speed, latency, ping" />
+  <link rel="canonical" href="https://networkutils.mooo.com/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="/" class="active">Speed Test</a>
+  <a href="/uptime.html">Uptime Monitor</a>
+  <a href="/docs">Docs</a>
+</nav>
+
+<header>
+  <h1>SpeedTest</h1>
+  <p>Измерьте скорость вашего интернета</p>
+</header>
+
+<div class="card">
+  <div class="gauge-wrap">
+    <div class="gauge-ring">
+      <svg viewBox="0 0 200 200" width="200" height="200">
+        <circle class="track" cx="100" cy="100" r="80" fill="none" stroke-width="14"/>
+        <circle id="gauge-fill" class="fill" cx="100" cy="100" r="80" fill="none" stroke-width="14"/>
+      </svg>
+      <div class="gauge-label">
+        <span id="gauge-value" class="gauge-value">0</span>
+        <span class="gauge-unit">Mbps</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Входящая</div>
+      <div id="stat-dl" class="stat-value">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Исходящая</div>
+      <div id="stat-ul" class="stat-value">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Задержка</div>
+      <div id="stat-lat" class="stat-value">—</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="phase">Ожидания начала проверки</span>
+      <span id="progress-lbl"></span>
+    </div>
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+  </div>
+
+  <button id="start-btn" class="btn">Начать</button>
+</div>
+
+<!-- History (persisted via localStorage) -->
+<div class="card">
+  <h2 style="font-size:1rem;margin-bottom:16px;color:var(--muted)">История</h2>
+  <table class="history">
+    <thead>
+      <tr>
+        <th>Время</th>
+        <th>Входящая</th>
+        <th>Исходящая</th>
+        <th>Задержка</th>
+      </tr>
+    </thead>
+    <tbody id="history-body">
+      <tr><td colspan="4" style="color:var(--muted);text-align:center;padding:16px">Нет результатов</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <a href="/docs">Docs</a> &nbsp;·&nbsp;
+  <a href="https://github.com/gtbtop/network-utils" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

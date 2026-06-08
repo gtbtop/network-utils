@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetworkUtils - Документация</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0f1117; --card:#1a1d27; --accent:#4f8ef7; --text:#e2e8f0; --muted:#64748b; --code:#2a2d3a; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.7; padding:40px 16px 80px; }
+    .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:2rem; margin-bottom:8px; }
+    h2 { font-size:1.2rem; margin:40px 0 12px; color:var(--accent); }
+    h3 { font-size:1rem; margin:24px 0 8px; }
+    p  { color:#cbd5e1; margin-bottom:12px; }
+    code { background:var(--code); padding:2px 6px; border-radius:4px; font-size:.9em; font-family:'JetBrains Mono','Fira Code',monospace; }
+    pre  { background:var(--code); border-radius:10px; padding:20px; overflow-x:auto; margin-bottom:16px; }
+    pre code { background:none; padding:0; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; margin-bottom:16px; }
+    th { color:var(--muted); text-transform:uppercase; font-size:.72rem; letter-spacing:.5px; padding:0 10px 10px; text-align:left; }
+    td { padding:8px 10px; border-top:1px solid #2a2d3a; color:#cbd5e1; }
+    a  { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:.75rem; font-weight:600; }
+    .get  { background:#1e3a5f; color:#4f8ef7; }
+    .post { background:#14402e; color:#34d399; }
+    nav { display:flex; gap:16px; margin-bottom:40px; font-size:.9rem; }
+    .divider { border:none; border-top:1px solid #2a2d3a; margin:32px 0; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a href="/">← На главную</a>
+    <a href="https://github.com/gtbtop/network-utils" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+
+  <h1>NetworkUtils - Документация</h1>
+  <p>Инструмент для проверки скорости интернета и мониторинга доступности сайтов. Построен на FastAPI (Python) и vanilla JS.</p>
+
+  <hr class="divider"/>
+
+  <h2>Принцип работы</h2>
+
+  <h3>Задержка (Latency)</h3>
+  <p>Браузер отправляет 10 HTTP GET запросов к <code>/api/ping</code> подряд и фиксирует время от запроса до ответа (<code>performance.now()</code>). Верхние 20% выбросов отбрасываются, остальные усредняются.</p>
+
+  <h3>Скорость загрузки (Download)</h3>
+  <p>Сначала выполняется "разогревающий" запрос на 1 МБ для установки TCP-соединения. Затем с сервера стримится 25 МБ случайных байт. Браузер читает их чанк за чанком через <a href="https://developer.mozilla.org/en-US/docs/Web/API/Streams_API" target="_blank">Streams API</a>, подсчитывая скорость в реальном времени.</p>
+  <p>Используются случайные байты (<code>os.urandom</code>), что позволяет избежать сжатия.</p>
+
+  <h3>Скорость отдачи (Upload)</h3>
+  <p>Браузер генерирует 10 МБ случайных байт (<code>crypto.getRandomValues</code>) и отправляет их на <code>/api/upload</code> через XMLHttpRequest (чтобы можно было отслеживать прогресс отправки). Скорость вычисляется как байты ÷ время.</p>
+
+  <h3>Мониторинг доступности</h3>
+  <p>Сервер каждые 30 секунд проверяет список заданных сайтов через <code>httpx</code> и сохраняет последние 240 результатов (≈2 часа) в памяти. Пользователь может добавить собственный URL - его история хранится в <code>localStorage</code> браузера.</p>
+
+  <hr class="divider"/>
+
+  <h2>API</h2>
+
+  <table>
+    <thead>
+      <tr><th>Метод</th><th>Путь</th><th>Описание</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/ping</code></td>
+        <td>Возвращает <code>{"server_ts": ...}</code>. Используется для измерения задержки.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/download/{size}</code></td>
+        <td>Стримит случайные байты. <code>size</code>: <code>1mb</code>, <code>10mb</code>, <code>25mb</code>, <code>100mb</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="badge post">POST</span></td>
+        <td><code>/api/upload</code></td>
+        <td>Принимает сырые байты. Возвращает <code>{"received_bytes": N, "md5": "..."}</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/uptime/sites</code></td>
+        <td>Список отслеживаемых сайтов с последним результатом проверки.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/uptime/history/{id}</code></td>
+        <td>История проверок для конкретного сайта.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/uptime/check?url=...</code></td>
+        <td>Разовая проверка любого URL прямо сейчас.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/health</code></td>
+        <td>Проверка состояния сервера. Возвращает <code>{"status": "ok"}</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="badge get">GET</span></td>
+        <td><code>/api/docs</code></td>
+        <td>Интерактивный Swagger UI (встроен в FastAPI).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider"/>
+
+  <h2>Локальный запуск</h2>
+
+  <p>Нужен только <a href="https://www.docker.com/products/docker-desktop/" target="_blank">Docker Desktop</a>.</p>
+
+  <pre><code>git clone https://github.com/gtbtop/network-utils
+cd network-utils
+docker compose -f docker-compose.dev.yml up --build</code></pre>
+  <p>-> <a href="http://localhost">http://localhost</a></p>
+
+  <hr class="divider"/>
+
+  <h2>Деплой на сервер (HTTPS)</h2>
+
+  <p>Понадобится сервер с публичным IP-адресом и домен.</p>
+
+  <h3>1. Привязка домена к серверу</h3>
+  <p>В панели управления доменом нужно найти раздел DNS и создать A-запись: имя <code>@</code>, значение - IP твоего сервера.</p>
+
+  <h3>2. Копирование проекта на сервер на сервер</h3>
+  <pre><code>rsync -avz ./ user@your-server:~/network-utils/</code></pre>
+
+  <h3>3. Получение HTTPS-сертификата</h3>
+  <p>Сертификат можно получить бесплатно через Let's Encrypt. На сервере (со своим доменом и почтой):</p>
+  <pre><code>docker run --rm -p 80:80 \
+  -v ~/certbot/conf:/etc/letsencrypt \
+  certbot/certbot certonly --standalone \
+  --agree-tos --no-eff-email \
+  --email you@example.com -d yourdomain.com</code></pre>
+
+  <h3>4. Запуск</h3>
+  <pre><code>DOMAIN=yourdomain.com docker compose up -d --build</code></pre>
+  <p>Сайт будет доступен по адресу <code>https://yourdomain.com</code>. Сертификат обновляется автоматически.</p>
+
+  <hr class="divider"/>
+
+  <h2>Архитектура</h2>
+  <pre><code>Браузер
+  │
+  ├── GET /            -> nginx -> frontend/index.html
+  ├── GET /uptime.html -> nginx -> frontend/uptime.html
+  ├── GET /docs        -> nginx -> docs/index.html
+  ├── GET /css/* /js/* -> nginx -> frontend/
+  │
+  └── /api/*           -> nginx -> backend:8000 (FastAPI)</code></pre>
+
+  <hr class="divider"/>
+
+  <h2>Технологии</h2>
+  <table>
+    <tbody>
+      <tr><td>Бэкенд</td><td>Python 3.12, FastAPI, Uvicorn, httpx</td></tr>
+      <tr><td>Фронтенд</td><td>Vanilla JS, CSS custom properties, SVG-спидометр, Chart.js</td></tr>
+      <tr><td>TLS</td><td>nginx + Let's Encrypt (certbot)</td></tr>
+      <tr><td>Контейнеры</td><td>Docker, Docker Compose</td></tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

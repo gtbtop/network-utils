@@ -1,0 +1,8 @@
+[
+{"id":"google", "name":"Google", "url":"https://www.google.com"},
+{"id":"github", "name":"GitHub", "url":"https://github.com"},
+{"id":"youtube", "name":"YouTube", "url":"https://www.youtube.com"},
+{"id":"x", "name":"X", "url":"https://x.com"},
+{"id":"wikipedia", "name":"Wikipedia", "url":"https://www.wikipedia.org"},
+{"id":"mipt-lms", "name":"MIPTLMS", "url":"https://lms.mipt.ru"}
+]

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проверка доступности</title>
+  <meta name="description" content="Real-time website availability monitoring. Check uptime, response time and history for any site." />
+  <link rel="canonical" href="https://networkutils.mooo.com/uptime.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+</head>
+<body>
+
+<nav class="topnav" style="max-width:1160px">
+  <a href="/">Speed Test</a>
+  <a href="/uptime.html" class="active">Uptime Monitor</a>
+  <a href="/docs">Docs</a>
+</nav>
+
+<header>
+  <h1>Проверка доступности</h1>
+  <p id="last-updated">Проверка сайтов…</p>
+</header>
+
+<!-- Preconfigured sites -->
+<div id="sites-list" class="sites-grid"></div>
+
+<!-- Custom URL tracking -->
+<div style="width:100%;max-width:1160px;margin-top:8px">
+  <h2 style="font-size:1rem;color:var(--muted);margin-bottom:14px">Введите свой URL</h2>
+  <div class="check-form" style="max-width:560px">
+    <input id="custom-url-input" class="check-input" type="url" placeholder="https://your-site.com" />
+    <button id="custom-add-btn" class="btn-sm">Добавить</button>
+  </div>
+  <div id="custom-sites-grid" class="sites-grid"></div>
+</div>
+
+<footer>
+  <a href="/docs">Docs</a> &nbsp;·&nbsp;
+  <a href="https://github.com/gtbtop/network-utils" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="/js/uptime.js"></script>
+</body>
+</html>
