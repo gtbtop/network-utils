@@ -20,4 +20,6 @@ https://networkutils.mooo.com
 
 Сервер развернут на [Yandex Cloud](https://yandex.cloud/ru), домен взят на [freedns.afraid.org](https://freedns.afraid.org/domain/registry/), сертификат получен через [Let's encrypt](https://letsencrypt.org/), все контейнеризировано 
 
-По поводу индексирования страниц Яндекс и Гугл еще не ответили, но запрос отправлен
+По поводу индексации страниц Яндекс и Гугл еще не ответили
+
+![alt text](image-2.png)
