@@ -39,7 +39,6 @@ header p  { color: var(--muted); margin-top: 6px; }
   margin-bottom: 24px;
 }
 
-/* Gauge */
 .gauge-wrap {
   display: flex;
   flex-direction: column;
@@ -71,7 +70,6 @@ header p  { color: var(--muted); margin-top: 6px; }
 .gauge-value { font-size: 2.4rem; font-weight: 700; line-height: 1; }
 .gauge-unit  { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
 
-/* Stats row */
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -89,13 +87,11 @@ header p  { color: var(--muted); margin-top: 6px; }
 .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
 .stat-value { font-size: 1.25rem; font-weight: 600; }
 
-/* Progress bar */
 .progress-wrap { margin-bottom: 24px; }
 .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
 .progress-bar { height: 6px; background: #2a2d3a; border-radius: 99px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; width: 0%; transition: width 0.2s ease; }
 
-/* Button */
 .btn {
   width: 100%;
   padding: 14px;
@@ -112,7 +108,6 @@ header p  { color: var(--muted); margin-top: 6px; }
 .btn:active:not(:disabled) { transform: scale(.98); }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 
-/* Phase indicator */
 .phase {
   text-align: center;
   font-size: 0.85rem;
@@ -121,7 +116,6 @@ header p  { color: var(--muted); margin-top: 6px; }
   margin-bottom: 16px;
 }
 
-/* History table */
 .history { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .history th { color: var(--muted); text-transform: uppercase; font-size: 0.72rem; letter-spacing: .5px; padding: 0 8px 10px; text-align: left; }
 .history td { padding: 8px; border-top: 1px solid #2a2d3a; }
@@ -148,7 +142,6 @@ footer {
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
-/* ── Top nav ── */
 .topnav {
   width: 100%;
   max-width: 560px;
@@ -169,7 +162,6 @@ footer a:hover { text-decoration: underline; }
 .topnav a.active, .topnav a:hover { color: var(--text); background: #252838; }
 .topnav a.active { color: var(--accent); }
 
-/* ── Uptime dashboard ── */
 .sites-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -217,7 +209,6 @@ footer a:hover { text-decoration: underline; }
 
 .chart-wrap { position: relative; height: 70px; }
 
-/* ── Status page ── */
 .status-header {
   display: flex;
   flex-direction: column;
@@ -271,7 +262,6 @@ footer a:hover { text-decoration: underline; }
 }
 .share-link a { color: var(--accent); }
 
-/* ── Uptime bar (sparkline blocks) ── */
 .uptime-bar {
   display: flex;
   gap: 2px;
