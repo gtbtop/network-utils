@@ -276,3 +276,15 @@ footer a:hover { text-decoration: underline; }
 .uptime-bar .up-block   { background: var(--accent2); opacity: .8; }
 .uptime-bar .down-block { background: #ef4444; opacity: .8; }
 .uptime-bar .no-block   { background: #2a2d3a; }
+
+.conn-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 480px) {
+  .conn-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}
+.conn-item { text-align: center; }
+.conn-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.conn-value { font-size: 0.9rem; font-weight: 600; word-break: break-all; }

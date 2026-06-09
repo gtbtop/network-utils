@@ -93,6 +93,15 @@ check("Ответ содержит up/latency_ms", "up" in data and "latency_ms"
 r = httpx.get(f"{BASE}/api/uptime/check", params={"url": "не-урл"})
 check("Невалидный URL  -> 400", r.status_code == 400)
 
+section("Whoami")
+r = httpx.get(f"{BASE}/api/whoami")
+check("GET /api/whoami  -> 200", r.status_code == 200)
+data = r.json()
+check("Ответ содержит ip и user_agent", "ip" in data and "user_agent" in data)
+ip = data.get("ip", "")
+check("ip не пустой", bool(ip), ip)
+check("ip выглядит как адрес", "." in ip or ":" in ip, ip)
+
 total = passed + failed
 print(f"\n{BOLD}Итог: {passed}/{total} проверок прошли{RESET}")
 if failed:

@@ -182,6 +182,22 @@ async def uptime_check(url: str = Query(..., description="URL to check")):
     return {"url": url, **result}
 
 
+@app.get("/api/whoami")
+async def whoami(request: Request):
+    """
+    Возвращает IP-адрес клиента (как его видит сервер) и браузер (user-agent)
+    """
+    forwarded_for = request.headers.get("x-forwarded-for")
+    if forwarded_for:
+        ip = forwarded_for.split(",")[0].strip()
+    else:
+        ip = request.headers.get("x-real-ip") or (request.client.host if request.client else "unknown")
+    return {
+        "ip": ip,
+        "user_agent": request.headers.get("user-agent", ""),
+    }
+
+
 @app.get("/api/health")
 async def health():
     """Проверка, жив ли сервер."""

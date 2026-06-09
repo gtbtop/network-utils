@@ -194,3 +194,56 @@ startBtn.addEventListener('click', async () => {
 });
 
 renderHistory();
+
+// Определяет название и версию браузера по userAgent
+function parseBrowser(ua) {
+  if (/Edg\//.test(ua))       return 'Edge '    + (ua.match(/Edg\/([\d.]+)/)    || ['',''])[1];
+  if (/OPR\//.test(ua))       return 'Opera '   + (ua.match(/OPR\/([\d.]+)/)    || ['',''])[1];
+  if (/YaBrowser\//.test(ua)) return 'Яндекс.Браузер ' + (ua.match(/YaBrowser\/([\d.]+)/) || ['',''])[1];
+  if (/Firefox\//.test(ua))   return 'Firefox ' + (ua.match(/Firefox\/([\d.]+)/) || ['',''])[1];
+  if (/Chrome\//.test(ua))    return 'Chrome '  + (ua.match(/Chrome\/([\d.]+)/)  || ['',''])[1];
+  if (/Safari\//.test(ua) && /Version\//.test(ua)) return 'Safari ' + (ua.match(/Version\/([\d.]+)/) || ['',''])[1];
+  return 'Неизвестен';
+}
+
+// Определяет ос по userAgent
+function parseOS(ua) {
+  if (/Windows NT 10/.test(ua)) return 'Windows 10/11';
+  if (/Windows NT/.test(ua)) return 'Windows';
+  if (/iPhone/.test(ua)) return 'iOS (iPhone)';
+  if (/iPad/.test(ua)) return 'iOS (iPad)';
+  if (/Android/.test(ua)) return 'Android ' + (ua.match(/Android ([\d.]+)/) || ['',''])[1];
+  if (/Mac OS X/.test(ua)) return 'macOS';
+  if (/Linux/.test(ua)) return 'Linux';
+  return 'Неизвестна';
+}
+
+// Запрашивает ip с бэкенда и парсит браузер/ОС,
+// Затем по IP запрашивает геолокацию у ipapi.co
+async function loadConnectionInfo() {
+  const ua = navigator.userAgent;
+  document.getElementById('conn-browser').textContent = parseBrowser(ua);
+  document.getElementById('conn-os').textContent = parseOS(ua);
+
+  let ip = 'Недоступно';
+  try {
+    const whoami = await fetch(`${API}/api/whoami`).then(r => r.json());
+    ip = whoami.ip;
+    document.getElementById('conn-ip').textContent = ip;
+  } catch {
+    document.getElementById('conn-ip').textContent = ip;
+    return;
+  }
+
+  try {
+    const geo = await fetch(`https://ipapi.co/${ip}/json/`).then(r => r.json());
+    const location = [geo.country_name, geo.city].filter(Boolean).join(' / ') || '—';
+    document.getElementById('conn-location').textContent = location;
+    document.getElementById('conn-org').textContent = geo.org || '—';
+  } catch {
+    document.getElementById('conn-location').textContent = '—';
+    document.getElementById('conn-org').textContent = '—';
+  }
+}
+
+loadConnectionInfo();
